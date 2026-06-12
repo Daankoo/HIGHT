@@ -1,9 +1,15 @@
 #include "HIGHT.h"
 
-void Decrypt(const string& InputName, const string& OutputName) {
+void Decrypt(const string& InputName, const string& OutputName, const string& KeyName) {
     ifstream InputFile(InputName);
     if (!InputFile) {
         cout << "Error: could not open file \"" << InputName << "\"\n";
+        return;
+    }
+
+    ifstream KeyFile(KeyName);
+    if (!KeyFile) {
+        cout << "Error: could not open file \"" << KeyName << "\"\n";
         return;
     }
 
