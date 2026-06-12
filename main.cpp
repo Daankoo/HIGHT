@@ -16,9 +16,14 @@ int main() {
     }
 
     if (choice == 1) {
-        string InputName, OutputName;
+        string InputName, OutputName, KeyName;
+        
         cout << "\n--- Encrypt ---\n";
         cout << "Enter input file name: ";
+        cin >> InputName;
+        
+        cout << "Enter file with key name: ";
+        cin >> KeyName;
 
         cout << "Enter output file name (press Enter to skip): ";
 
@@ -27,22 +32,30 @@ int main() {
             cout << "Output file: " << OutputName << "\n";
         }
 
-        Encrypt(InputName, OutputName);
+        Encrypt(InputName, OutputName, KeyName);
     }
 
     else if (choice == 2) {
-        string InputName, OutputName;
+        string InputName, OutputName, KeyName;
+        
         cout << "\n--- Decrypt ---\n";
         cout << "Enter input file name: ";
+        cin >> InputName;
+
+        cout << "Enter file with key name: ";
+        cin >> KeyName;
 
         cout << "Enter output file name (press Enter to skip): ";
+        cin >> OutputName;
 
         if (OutputName.empty()) {
             OutputName = "Output_Decrypt.txt";
             cout << "Output file: " << OutputName << "\n";
         }
 
-        Decrypt(InputName, OutputName);
+        Decrypt(InputName, OutputName, KeyName);
+
+
     }
 
     return 0;

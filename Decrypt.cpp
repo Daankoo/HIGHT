@@ -1,28 +1,5 @@
 #include "header.h"
 
-void Decrypt(const string& InputName, const string& OutputName, const string& KeyName) {
-    ifstream InputFile(InputName);
-    if (!InputFile) {
-        cout << "Error: could not open file \"" << InputName << "\"\n";
-        return;
-    }
-
-    ifstream KeyFile(KeyName);
-    if (!KeyFile) {
-        cout << "Error: could not open file \"" << KeyName << "\"\n";
-        return;
-    }
-
-    ofstream OutputFile(OutputName, ios::binary);
-    if (!OutputFile) {
-        cout << "Error: could not create file \"" << OutputName << "\"\n";
-        return;
-    }
-
-    cout << "Decoding complete. Result saved to \"" << OutputName << "\"\n";
-}
-
-
 // Оберненна до EncryptBlock
 void DecryptBlock(uint8_t P[8], uint8_t C[8], const HIGHT& hight) { 
 
@@ -80,4 +57,26 @@ void DecryptBlock(uint8_t P[8], uint8_t C[8], const HIGHT& hight) {
     P[5] = X[5];
     P[6] = X[6] ^ hight.WK[3];
     P[7] = X[7];
+}
+
+void Decrypt(const string& InputName, const string& OutputName, const string& KeyName) {
+    ifstream InputFile(InputName, ios::binary);
+    if (!InputFile) {
+        cout << "Error: could not open file \"" << InputName << "\"\n";
+        return;
+    }
+
+    ifstream KeyFile(KeyName, ios::binary);
+    if (!KeyFile) {
+        cout << "Error: could not open file \"" << KeyName << "\"\n";
+        return;
+    }
+
+    ofstream OutputFile(OutputName, ios::binary);
+    if (!OutputFile) {
+        cout << "Error: could not create file \"" << OutputName << "\"\n";
+        return;
+    }
+
+    cout << "Decoding complete. Result saved to \"" << OutputName << "\"\n";
 }

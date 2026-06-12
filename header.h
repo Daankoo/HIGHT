@@ -23,8 +23,10 @@ void GenerateRoundKeys(const uint8_t key[16], HIGHT& hight);
 // Encrypt.cpp
 
 void Encrypt(const string& InputName, const string& OutputName, const string& KeyName);
+void EncryptBlock(uint8_t P[8], uint8_t C[8], const HIGHT& hight);
 
 
 // Decrypt.cpp
 
 void Decrypt(const string& InputName, const string& OutputName, const string& KeyName);
+void DecryptBlock(uint8_t P[8], uint8_t C[8], const HIGHT& hight);

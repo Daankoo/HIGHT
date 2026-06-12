@@ -1,27 +1,5 @@
 #include "header.h"
 
-void Encrypt(const string& InputName, const string& OutputName, const string& KeyName) {
-    ifstream InputFile(InputName, ios::binary);
-    if (!InputFile) {
-        cout << "Error: could not open file \"" << InputName << "\"\n";
-        return;
-    }
-
-    ifstream KeyFile(KeyName);
-    if (!KeyFile) {
-        cout << "Error: could not open file \"" << KeyName << "\"\n";
-        return;
-    }
-
-    ofstream OutputFile(OutputName);
-    if (!OutputFile) {
-        cout << "Error: could not create file \"" << OutputName << "\"\n";
-        return;
-    }
-
-    cout << "Encoding complete. Result saved to \"" << OutputName << "\"\n";
-}
-
 void EncryptBlock(uint8_t P[8], uint8_t C[8], const HIGHT& hight) {
 
 //  2)
@@ -78,4 +56,56 @@ void EncryptBlock(uint8_t P[8], uint8_t C[8], const HIGHT& hight) {
     C[5] = X[5];
     C[6] = X[6] ^ hight.WK[7];
     C[7] = X[7];
+}
+
+void Encrypt(const string& InputName, const string& OutputName, const string& KeyName) {
+    ifstream InputFile(InputName, ios::binary);
+    if (!InputFile) {
+        cout << "Error: could not open file \"" << InputName << "\"\n";
+        return;
+    }
+
+    ifstream KeyFile(KeyName, ios::binary);
+    if (!KeyFile) {
+        cout << "Error: could not open file \"" << KeyName << "\"\n";
+        return;
+    }
+
+    ofstream OutputFile(OutputName, ios::binary);
+    if (!OutputFile) {
+        cout << "Error: could not create file \"" << OutputName << "\"\n";
+        return;
+    }
+
+    uint8_t key[16] = { 0 };
+    KeyFile.read((char*)key, 16);
+
+    if (KeyFile.gcount() < 16) {
+        cout << "Error: Key file < 16!\n";
+        return;
+    }
+
+    HIGHT hight;
+    GenerateRoundKeys(key, hight);
+
+    uint8_t InputBlock[8] = { 0 };
+    uint8_t OutputBlock[8] = { 0 };
+
+    while (InputFile.read((char*)InputBlock, 8)) {
+        EncryptBlock(InputBlock, OutputBlock, hight);
+        OutputFile.write((char*)OutputBlock, 8);
+    }
+
+    int CountBite = InputFile.gcount();
+    if (CountBite > 0) {
+
+        for (int i = CountBite; i < 8; i++) {
+            InputBlock[i] = 0x00;
+        }
+
+        EncryptBlock(InputBlock, OutputBlock, hight);
+        OutputFile.write((char*)OutputBlock, 8);
+    }
+
+    cout << "Encoding complete. Result saved to \"" << OutputName << "\"\n";
 }
