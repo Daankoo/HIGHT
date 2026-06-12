@@ -1,4 +1,4 @@
-#include "HIGHT.h"
+#include "header.h"
 
 void Decrypt(const string& InputName, const string& OutputName, const string& KeyName) {
     ifstream InputFile(InputName);
