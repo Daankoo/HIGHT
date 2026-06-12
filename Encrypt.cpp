@@ -1,4 +1,4 @@
-#include "Class.h"
+#include "HIGHT.h"
 
 void Encrypt(const string& InputName, const string& OutputName) {
     ifstream InputFile(InputName, ios::binary);

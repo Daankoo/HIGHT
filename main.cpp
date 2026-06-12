@@ -1,9 +1,17 @@
-#include "Class.h"
+#include "HIGHT.h"
 
 int main() {
 
     int choice;
-    string input, output;
+    string key;
+
+    key = "0F1E2D3C4B5A69780F1E2D3C4B5A6978"; // 128 á³ò
+
+    uint8_t K[16] = {};
+    
+    for (int i = 0; i < 16; i++) {
+        K[i] = (uint8_t)stoul(key.substr(i * 2, 2), nullptr, 16);
+    }
 
     cout << "--- HIGHT ---\n";
     cout << "1. Encrypt file\n";
@@ -12,7 +20,7 @@ int main() {
     cin >> choice;
 
     if (choice != 1 && choice != 2) {
-        cout << "Invalid choice.\n";
+        cout << "Error choice!\n";
         return -1;
     }
 
@@ -44,10 +52,6 @@ int main() {
         }
 
         Decrypt(InputName, OutputName);
-    }
-
-    else {
-        cout << "Invalid choice :(\n";
     }
 
     return 0;
