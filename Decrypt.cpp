@@ -1,4 +1,4 @@
-#include "Ñlass.h"
+#include "Class.h"
 
 void Decrypt(const string& InputName, const string& OutputName) {
     ifstream InputFile(InputName);

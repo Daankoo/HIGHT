@@ -1,4 +1,4 @@
-#include "Ñlass.h"
+#include "Class.h"
 
 uint8_t F0(uint8_t x) {
     return ((x << 1) | (x >> 7)) ^ ((x << 2) | (x >> 6)) ^ ((x << 7) | (x >> 1));

@@ -1,4 +1,4 @@
-#include "Ñlass.h"
+#include "Class.h"
 
 int main() {
 
@@ -16,12 +16,6 @@ int main() {
         return -1;
     }
 
-    cout << "Input file: ";
-    cin >> input;
-
-    cout << "Output file: ";
-    cin >> output;
-
     if (choice == 1) {
         string InputName, OutputName;
         cout << "\n--- Encrypt ---\n";
@@ -33,6 +27,8 @@ int main() {
             OutputName = "Output_Encrypt.txt";
             cout << "Output file: " << OutputName << "\n";
         }
+
+        Encrypt(InputName, OutputName);
     }
 
     else if (choice == 2) {
@@ -46,6 +42,8 @@ int main() {
             OutputName = "Output_Decrypt.txt";
             cout << "Output file: " << OutputName << "\n";
         }
+
+        Decrypt(InputName, OutputName);
     }
 
     else {
