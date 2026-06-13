@@ -59,6 +59,34 @@ void DecryptBlock(uint8_t C[8], uint8_t P[8], const HIGHT& hight) {
     P[7] = X[7];
 }
 
+vector<uint8_t> DecryptData(const vector<uint8_t>& data, const uint8_t key[16]) {
+    HIGHT hight;
+    GenerateRoundKeys(key, hight);
+    vector<uint8_t> result;
+
+    if (data.size() % 8 != 0) {
+        return {};
+    }
+
+    for (int i = 0; i < data.size(); i += 8) {
+
+        uint8_t InputBlock[8] = { 0 };
+        uint8_t OutputBlock[8] = { 0 };
+
+        for (int j = 0; j < 8; j++) {
+            InputBlock[j] = data[i + j];
+        }
+
+        DecryptBlock(InputBlock, OutputBlock, hight);
+
+        for (int j = 0; j < 8; j++) {
+            result.push_back(OutputBlock[j]);
+        }
+    }
+
+    return result;
+}
+
 void Decrypt(const string& InputName, const string& OutputName, const string& KeyName) {
     ifstream InputFile(InputName, ios::binary);
     if (!InputFile) {
@@ -78,34 +106,27 @@ void Decrypt(const string& InputName, const string& OutputName, const string& Ke
         return;
     }
 
-    // Підрахунок розміру файлу
-    InputFile.seekg(0, ios::end);
-    uint64_t fileSize = InputFile.tellg();
-    InputFile.seekg(0, ios::beg);
-
-    if (fileSize % 8 != 0) {
-        cout << "Error size file\n";
-        return;
-    }
-
     uint8_t key[16] = { 0 };
     KeyFile.read((char*)key, 16);
-
     if (KeyFile.gcount() < 16) {
         cout << "Error: Key file < 16!\n";
         return;
     }
 
-    HIGHT hight;
-    GenerateRoundKeys(key, hight);
-
-    uint8_t InputBlock[8] = { 0 };
-    uint8_t OutputBlock[8] = { 0 };
-
-    while (InputFile.read((char*)InputBlock, 8)) {
-        DecryptBlock(InputBlock, OutputBlock, hight);
-        OutputFile.write((char*)OutputBlock, 8);
+    vector<uint8_t> data;
+    uint8_t byte;
+    while (InputFile.read((char*)&byte, 1)) {
+        data.push_back(byte);
     }
+
+    vector<uint8_t> result = DecryptData(data, key);
+
+    if (result.empty()) {
+        cout << "Error file size\n";
+        return;
+    }
+
+    OutputFile.write((char*)result.data(), result.size());
 
     cout << "Decoding complete. Result saved to \"" << OutputName << "\"\n";
 }

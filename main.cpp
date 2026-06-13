@@ -26,6 +26,7 @@ int main() {
         cin >> KeyName;
 
         cout << "Enter output file name (press Enter to skip): ";
+        cin.ignore();
         getline(cin, OutputName);
 
         if (OutputName.empty()) {
@@ -47,6 +48,7 @@ int main() {
         cin >> KeyName;
 
         cout << "Enter output file name (press Enter to skip): ";
+        cin.ignore();
         getline(cin, OutputName);
 
         if (OutputName.empty()) {
