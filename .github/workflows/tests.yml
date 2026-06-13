@@ -1,0 +1,27 @@
+name: HIGHT Unit Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile tests
+        run: |
+          g++ -std=c++17 -Wall \
+            tests.cpp \
+            hight_fun.cpp \
+            Encrypt.cpp \
+            Decrypt.cpp \
+            -o hight_tests
+
+      - name: Run tests
+        run: ./hight_tests
