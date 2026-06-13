@@ -26,6 +26,7 @@ int main() {
         cin >> KeyName;
 
         cout << "Enter output file name (press Enter to skip): ";
+        cin >> OutputName;
 
         if (OutputName.empty()) {
             OutputName = "Output_Encrypt.txt";

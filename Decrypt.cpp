@@ -1,7 +1,7 @@
 #include "header.h"
 
 // Оберненна до EncryptBlock
-void DecryptBlock(uint8_t P[8], uint8_t C[8], const HIGHT& hight) { 
+void DecryptBlock(uint8_t C[8], uint8_t P[8], const HIGHT& hight) { 
 
     //  4)
     uint8_t X[8];
@@ -76,6 +76,35 @@ void Decrypt(const string& InputName, const string& OutputName, const string& Ke
     if (!OutputFile) {
         cout << "Error: could not create file \"" << OutputName << "\"\n";
         return;
+    }
+
+    // Підрахунок розміру файлу
+    InputFile.seekg(0, ios::end);
+    uint64_t fileSize = InputFile.tellg();
+    InputFile.seekg(0, ios::beg);
+
+    if (fileSize % 8 != 0) {
+        cout << "Error size file\n";
+        return;
+    }
+
+    uint8_t key[16] = { 0 };
+    KeyFile.read((char*)key, 16);
+
+    if (KeyFile.gcount() < 16) {
+        cout << "Error: Key file < 16!\n";
+        return;
+    }
+
+    HIGHT hight;
+    GenerateRoundKeys(key, hight);
+
+    uint8_t InputBlock[8] = { 0 };
+    uint8_t OutputBlock[8] = { 0 };
+
+    while (InputFile.read((char*)InputBlock, 8)) {
+        DecryptBlock(InputBlock, OutputBlock, hight);
+        OutputFile.write((char*)OutputBlock, 8);
     }
 
     cout << "Decoding complete. Result saved to \"" << OutputName << "\"\n";
