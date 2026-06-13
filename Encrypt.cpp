@@ -99,15 +99,11 @@ void Encrypt(const string& InputName, const string& OutputName, const string& Ke
     int CountBite = InputFile.gcount();
     if (CountBite > 0) {
 
-        uint8_t PadSize = 8 - CountBite;
-
         for (int i = CountBite; i < 8; i++) {
             InputBlock[i] = 0x00;
         }
 
         EncryptBlock(InputBlock, OutputBlock, hight);
-
-        OutputBlock = OutpuBlock << PadSize;
 
         OutputFile.write((char*)OutputBlock, 8);
     }

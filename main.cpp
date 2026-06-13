@@ -26,7 +26,7 @@ int main() {
         cin >> KeyName;
 
         cout << "Enter output file name (press Enter to skip): ";
-        cin >> OutputName;
+        getline(cin, OutputName);
 
         if (OutputName.empty()) {
             OutputName = "Output_Encrypt.txt";
@@ -47,7 +47,7 @@ int main() {
         cin >> KeyName;
 
         cout << "Enter output file name (press Enter to skip): ";
-        cin >> OutputName;
+        getline(cin, OutputName);
 
         if (OutputName.empty()) {
             OutputName = "Output_Decrypt.txt";
@@ -55,8 +55,6 @@ int main() {
         }
 
         Decrypt(InputName, OutputName, KeyName);
-
-
     }
 
     return 0;
