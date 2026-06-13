@@ -27,5 +27,3 @@ void Encrypt(const string& InputName, const string& OutputName, const string& Ke
 void DecryptBlock(uint8_t C[8], uint8_t P[8], const HIGHT& hight);
 vector<uint8_t> DecryptData(const vector<uint8_t>& data, const uint8_t key[16]);
 void Decrypt(const string& InputName, const string& OutputName, const string& KeyName);
-
-
